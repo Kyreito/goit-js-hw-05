@@ -1,49 +1,100 @@
-/* Задача 4-5
-bind для замены this в методах объекта
-Оформи вызов метода invokeInventoryAction таким образом, чтобы в качестве this для методов
+/* Задача 5-4
+переиспользование методов класса
+Напиши класс StringBuilder. На вход он получает один параметр - строку, которую записывает в свойство _value.
 
-inventory.add
-inventory.remove выступал объект inventory */
+Добавь классу следующий функционал:
 
-const inventory = {
-  items: ["Knife", "Gas mask"],
-  add(itemName) {
-    this.items.push(itemName);
-    return `Adding ${itemName} to inventory`;
-  },
-  remove(itemName) {
-    this.items = this.items.filter((item) => item !== itemName);
-    return `Removing ${itemName} from inventory`;
-  },
-};
+Геттер value - возвращает текущее значение поля _value
+Метод append(str) - получает параметр str (строку) и добавляет ее в конец _value
+Метод prepend(str) - получает параметр str (строку) и добавляет ее в начало value
+Метод pad(str) - получает параметр str (строку) и добавляет ее в начало и в конец _value
+Метод pad должен использовать методы append и prepend
 
-const invokeInventoryAction = function (itemName, action) {
-  const act = action(itemName);
-  const msg = `Invoking action on ${itemName}`;
-  return { act, msg };
-};
+Редактор JavaScript:
+1
+ // Write code under this line
+2
+  
+3
+​
+4
+// console.log(typeof StringBuilder);
+5
+// 'function'
+6
+​
+7
+​
+8
+// const builder = new StringBuilder('.');
+9
+​
+10
+// builder.append('^');
+11
+// console.log(builder.value); // '.^'
+12
+​
+13
+// builder.prepend('^');
+14
+// console.log(builder.value); // '^.^'
+15
+​
+16
+// builder.pad('=');
+17
+// console.log(builder.value); // '=^.^='
+18
+​
+Проверить
+Сбросить
+Скрыть секцию результатов
+Результаты:
+(обновляются при нажатии на кнопку - Проверить)
 
-const invokeAdd = invokeInventoryAction(
-  "Medkit",
-  inventory.add.bind(inventory) // Write code in this line
-);
-const arrayAdd = [...inventory.items];
+©
+2020
+|
+ */
 
-console.log(invokeAdd);
-//{ act: 'Adding Medkit to inventory', msg: 'Invoking action on Medkit' }
+  // Write code under this line
+  class StringBuilder {
+    constructor(value){
+      this._value = value;
+  
+      console.log(this._value)
+  }
+    
+    get value() {
+    return this._value
+    }
+    
+   append(str) {
+      this._value += str
+   }
 
-console.log(arrayAdd);
-// ['Knife', 'Gas mask', 'Medkit']
+   prepend(str) {
+      this._value = str + this._value
+   }
 
-const invokeRemove = invokeInventoryAction(
-  "Gas mask",
-  inventory.remove.bind(inventory) // Write code in this line
-);
+   pad(str) {
+      this.prepend(str);
+      this.append(str)
+   }  
+  }  
 
-const arrayRemove = [...inventory.items];
+ console.log(typeof StringBuilder);
+// 'function'
 
-console.log(invokeRemove);
-//{ act: 'Removing Gas mask from inventory', msg: 'Invoking action on Gas mask' }
 
-console.log(arrayRemove);
-// ['Knife', 'Medkit']
+const builder = new StringBuilder('.');
+
+builder.append('^');
+console.log(builder.value); // '.^'
+
+builder.prepend('^');
+console.log(builder.value); // '^.^'
+
+builder.pad('=');
+console.log(builder.value); // '=^.^='
